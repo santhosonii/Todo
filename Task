@@ -1,0 +1,64 @@
+package D1;
+
+
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+ class S1 {
+
+	public static void main(String[] args) throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\gavvi\\eclipse-workspace\\Driverjarfiles\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://todomvc.com/examples/vanillajs/#/");
+		driver.manage().window().maximize();
+		String[] Content = {"todo","todo1","todo2","todo3"};
+		for(int i=0;i<Content.length;i++)
+		{
+			driver.findElement(By.xpath("//input[@class = 'new-todo']")).sendKeys(Content[i], Keys.ENTER);
+			Thread.sleep(2000);
+		}
+		// Select radio button
+		driver.findElement(By.xpath("//label[contains(text(), 'todo')]/../input")).click();  
+		Thread.sleep(2000);
+		
+		//Mouse hover - deleting
+		WebElement ele = driver.findElement(By.xpath("//label[contains(text(), 'todo1')]")); 
+
+	    //Creating object of an Actions class
+		Actions action = new Actions(driver);
+
+		//Performing the mouse hover action on the target element.
+		action.click().perform();
+		action.moveToElement(ele).perform();
+		
+		//Delete the selected data
+		driver.findElement(By.xpath("//label[contains(text(), 'todo1')]/../button")).click();
+		Thread.sleep(2000);
+		
+		//Double click the data to edit
+				Actions actions = new Actions (driver);
+				Thread.sleep(2000);
+				WebElement doubleclick = driver.findElement(By.xpath("//label[contains(text(), 'todo2')]"));
+				actions.doubleClick(doubleclick).build().perform();
+				By test = By.xpath("//li//input[@class='edit']");
+				driver.findElement(test).sendKeys("orrupt");
+				Thread.sleep(3000);
+				driver.findElement(test).clear();
+				
+		//List of Active data's will be shown
+		driver.findElement(By.xpath("//a[@href= '#/active']")).click(); 
+		Thread.sleep(2000);
+		
+		//List of completed data's will be shown
+		driver.findElement(By.xpath("//a[@href= '#/completed']")).click(); 
+		Thread.sleep(2000);
+		driver.findElement(By.xpath("//button[@class = 'clear-completed']")).click();  //clear completed
+		driver.close();	   
+	}
+ }
+ 
